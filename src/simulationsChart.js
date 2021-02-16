@@ -41,7 +41,7 @@ function dataloaded(data) {
 
 	
 	//Button for BI type
-	let types = ["All" , "RTC", "Universal"]
+	let types = [ "BI Type" , "RTC", "UBI"]
 	
 	let dropDown = d3.select("#button1")
 		
@@ -56,7 +56,7 @@ function dataloaded(data) {
 
 	
 	//Button for Benefit Amount
-	let amount = [ "1000", "5000", "10000", "20000"]
+	let amount = ["1000", "5000", "10000", "20000"]
 
 	let dropDown2 = d3.select("#button2")
 
@@ -70,9 +70,10 @@ function dataloaded(data) {
                     })
 
 
+
 		
 	//Button for Income Test Level
-	let income = [ "All" , "Family" , "Individual"]
+	let income = [ "Unit" , "Family" , "Individual"]
 
 	let dropDown3 = d3.select("#button3")
 
@@ -88,7 +89,7 @@ function dataloaded(data) {
 
 			
 	//Button for Payment Unit Level
-	let payment = [ "All" , "SQRT(2)" , "Per Capita"]
+	let payment = [ "Scale" , "SQRT(2)" , "Per Capita"]
 
 	let dropDown4 = d3.select("#button4")
 
@@ -104,7 +105,9 @@ function dataloaded(data) {
 
 
 
-	//Create functions for updates - if type button pressed first
+	
+//Create functions for updates
+	//If type button pressed first (1-2-3-4)
 	dropDown.on("change", function(){
 		var values = [];
 	
@@ -114,14 +117,14 @@ function dataloaded(data) {
 		
 			console.log(values)
 
-		if(values.length>0 && values != "All"){
+		if(values.length>0 && values != "BI Type"){
 			dataFilteredType = dataAll.filter(function(d){return d.group==values})
 		} else{dataFilteredType = dataAll}
 
 		dataFiltered = dataFilteredType
 
 
-		dropDown2.on("change", function(){
+	dropDown2.on("change", function(){
 		var values2 = [];
 	
 		d3.select(this)
@@ -139,7 +142,7 @@ function dataloaded(data) {
 		dataFiltered = dataFilteredAmount
 
 
-		dropDown3.on("change", function(){
+	dropDown3.on("change", function(){
 		var values3 = [];
 	
 		d3.select(this)
@@ -148,13 +151,11 @@ function dataloaded(data) {
 		
 			console.log(values3)
 
-		if(values3.length>0 && values3 != "All" ){
+		if(values3.length>0 && values3 != "Unit" ){
 			dataFilteredIncome = dataFilteredAmount.filter(function(d){return d.income == values3 || d.income == "N/A" })
 		} else{dataFilteredIncome = dataFilteredAmount}
 
 		dataFiltered = dataFilteredIncome
-
-	
 
 
 	dropDown4.on("change", function(){
@@ -166,35 +167,31 @@ function dataloaded(data) {
 		
 			console.log(values4)
 
-		if(values4.length>0 && values4 != "All" ){
+		if(values4.length>0 && values4 != "Scale" ){
 			dataFilteredPayment = dataFilteredIncome.filter(function(d){return d.payment == values4 })
 		} else{dataFilteredPayment = dataFilteredIncome}
 
 		dataFiltered = dataFilteredPayment
 
-		showData(dataFiltered)
+			showData(dataFiltered)
 
-	})
+		})
 
 			showData(dataFiltered)
 
+		})
+
+			showData(dataFiltered)
 
 		})
+			showData(dataFiltered)
+
+		})
+
+
 	
-
-			showData(dataFiltered)
-
-		})
-
-
-		showData(dataFiltered)
-
-		})
-
-
-
-
-//If Benefit amount button is pressed first
+	
+	//If Benefit amount button is pressed first (2-3-4-1)
 	dropDown2.on("change", function(){
 			var values2 = [];
 	
@@ -202,13 +199,9 @@ function dataloaded(data) {
 			.selectAll("option:checked")
 			.each(function(){values2.push(this.value)})
 		
-			console.log(values2)
-
 		if(values2.length>0 ){
 			dataFilteredAmount = dataAll.filter(function(d){return d.benefits==parseInt(values2[0]) || d.benefits==parseInt(values2[1]) || d.benefits==parseInt(values2[2]) || d.benefits==parseInt(values2[3]) })
 		} else{dataFilteredAmount = dataAll}
-
-		console.log(dataFilteredAmount)	
 
 		dataFiltered = dataFilteredAmount
 
@@ -219,47 +212,57 @@ function dataloaded(data) {
 		d3.select(this)
 			.selectAll("option:checked")
 			.each(function(){values3.push(this.value)})
-		
-			console.log(values3)
 
-		if(values3.length>0 && values3 != "All" ){
+		if(values3.length>0 && values3 != "Unit" ){
 			dataFilteredIncome = dataFilteredAmount.filter(function(d){return d.income == values3 || d.income == "N/A" })
 		} else{dataFilteredIncome = dataFilteredAmount}
 
-		console.log(dataFilteredAmount)	
-
 		dataFiltered = dataFilteredIncome
 		
-
 	dropDown4.on("change", function(){
 		var values4 = [];
 	
 		d3.select(this)
 			.selectAll("option:checked")
 			.each(function(){values4.push(this.value)})
-		
-			console.log(values4)
 
-		if(values4.length>0 && values4 != "All" ){
+		if(values4.length>0 && values4 != "Scale" ){
 			dataFilteredPayment = dataFilteredIncome.filter(function(d){return d.payment == values4 })
 		} else{dataFilteredPayment = dataFilteredIncome}
 
 		dataFiltered = dataFilteredPayment
 
-		showData(dataFiltered)
+	dropDown.on("change", function(){
+		var values = [];
+	
+		d3.select(this)
+			.selectAll("option:checked")
+			.each(function(){values.push(this.value)})
+		
+		if(values.length>0 && values != "BI Type"){
+			dataFilteredType = dataFilteredPayment.filter(function(d){return d.group==values})
+		} else{dataFilteredType = dataFilteredPayment}
+
+		dataFiltered = dataFilteredType
+
+			showData(dataFiltered)
 
 		})
-		showData(dataFiltered)
+			showData(dataFiltered)
 
 		})
 
 			showData(dataFiltered)
-	})
+		})
+
+			showData(dataFiltered)
+		})
+
+	
 
 
-
-//If Income button pressed first
-		dropDown3.on("change", function(){
+//If Income button pressed first (3 - 4 - 2- 1)
+	dropDown3.on("change", function(){
 			var values = [];
 	
 		d3.select(this)
@@ -268,7 +271,7 @@ function dataloaded(data) {
 		
 			console.log(values)
 
-		if(values.length>0 && values != "All" ){
+		if(values.length>0 && values != "Unit" ){
 			dataFilteredIncome = dataAll.filter(function(d){return d.income == values || d.income == "N/A" })
 		} else{dataFilteredIncome = dataAll}
 
@@ -283,12 +286,44 @@ function dataloaded(data) {
 		
 			console.log(values4)
 
-		if(values4.length>0 && values4 != "All" ){
+		if(values4.length>0 && values4 != "Scale" ){
 			dataFilteredPayment = dataFilteredIncome.filter(function(d){return d.payment == values4 })
 		} else{dataFilteredPayment = dataFilteredIncome}
 
 		dataFiltered = dataFilteredPayment
 
+	
+	dropDown2.on("change", function(){
+		var values2 = [];
+	
+		d3.select(this)
+			.selectAll("option:checked")
+			.each(function(){values2.push(this.value)})
+		
+			console.log(values2)
+
+		if(values2.length>0 ){
+			dataFilteredAmount = dataFilteredPayment.filter(function(d){return d.benefits==parseInt(values2[0]) || d.benefits==parseInt(values2[1]) || d.benefits==parseInt(values2[2]) || d.benefits==parseInt(values2[3]) })
+		} else{dataFilteredAmount = dataFilteredPayment}
+
+		dataFiltered = dataFilteredAmount
+
+	dropDown.on("change", function(){
+		var values = [];
+	
+		d3.select(this)
+			.selectAll("option:checked")
+			.each(function(){values.push(this.value)})
+		
+			console.log(values)
+
+		if(values.length>0 && values != "BI Type"){
+			dataFilteredType = dataFilteredAmount.filter(function(d){return d.group==values})
+		} else{dataFilteredType = dataFilteredAmount}
+
+		dataFiltered = dataFilteredType
+	
+
 		showData(dataFiltered)
 
 		})
@@ -298,9 +333,18 @@ function dataloaded(data) {
 	
 		})
 
+		showData(dataFiltered)
+	
+		})
+		
+		showData(dataFiltered)
+	
+		})
 
-//If pyament button pressed first
-		dropDown4.on("change", function(){
+
+
+//If payment button pressed first (4 - 3 - 2 - 1)
+	dropDown4.on("change", function(){
 		var values4 = [];
 	
 		d3.select(this)
@@ -309,15 +353,77 @@ function dataloaded(data) {
 		
 			console.log(values4)
 
-		if(values4.length>0 && values4 != "All" ){
+		if(values4.length>0 && values4 != "Scale" ){
 			dataFilteredPayment = dataAll.filter(function(d){return d.payment == values4 })
 		} else{dataFilteredPayment = dataAll}
 
 		dataFiltered = dataFilteredPayment
 
+	dropDown3.on("change", function(){
+			var values = [];
+	
+		d3.select(this)
+			.selectAll("option:checked")
+			.each(function(){values.push(this.value)})
+		
+			console.log(values)
+
+		if(values.length>0 && values != "Unit" ){
+			dataFilteredIncome = dataFilteredPayment.filter(function(d){return d.income == values || d.income == "N/A" })
+		} else{dataFilteredIncome = dataFilteredPayment}
+
+		dataFiltered = dataFilteredIncome
+	
+	dropDown2.on("change", function(){
+		var values2 = [];
+	
+		d3.select(this)
+			.selectAll("option:checked")
+			.each(function(){values2.push(this.value)})
+		
+			console.log(values2)
+
+		if(values2.length>0 ){
+			dataFilteredAmount = dataFilteredIncome.filter(function(d){return d.benefits==parseInt(values2[0]) || d.benefits==parseInt(values2[1]) || d.benefits==parseInt(values2[2]) || d.benefits==parseInt(values2[3]) })
+		} else{dataFilteredAmount = dataFilteredIncome}
+
+		dataFiltered = dataFilteredAmount
+
+	
+	dropDown.on("change", function(){
+		var values = [];
+	
+		d3.select(this)
+			.selectAll("option:checked")
+			.each(function(){values.push(this.value)})
+		
+			console.log(values)
+
+		if(values.length>0 && values != "BI Type"){
+			dataFilteredType = dataFilteredAmount.filter(function(d){return d.group==values})
+		} else{dataFilteredType = dataFilteredAmount}
+
+		dataFiltered = dataFilteredType
+	
+
+
 		showData(dataFiltered)
 
 		})
+		showData(dataFiltered)
+
+		})
+
+		showData(dataFiltered)
+
+		})
+		
+		showData(dataFiltered)
+
+		})
+
+
+
 		}
 
 
